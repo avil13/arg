@@ -2,9 +2,10 @@
   "name": "@avil13/arg",
   "public": true,
   "version": "1.0.0",
-  "description": "",
+  "description": "NodeJS package for simple use arguments in cli.",
   "main": "dist/index.js",
   "types": "dist/types",
+  "license": "MIT",
   "scripts": {
     "start": "npm run build && node dist/index.js",
     "dev": "ts-node --project tsconfig.json src/index.ts",
@@ -35,5 +36,14 @@
     "ts-node": "^8.6.2",
     "tslint": "^5.20.1",
     "typescript": "^3.7.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avil13/arg.git"
+  },
+  "bugs": {
+    "url": "https://github.com/avil13/arg/issues"
+  },
+  "homepage": "https://github.com/avil13/arg#readme",
+  "author": "@avil13"
 }
