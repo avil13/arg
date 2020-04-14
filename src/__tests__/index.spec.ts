@@ -1,4 +1,4 @@
-import { Arg,  IArgParamItem, IArgParamList } from './../src';
+import { Arg, IArgParamItem, IArgParamList } from '..';
 
 describe('Test Arg class', () => {
   let arg: Arg;
@@ -8,18 +8,20 @@ describe('Test Arg class', () => {
   });
 
   it.each([
-    ///
+    // /
     ['-x', { x: true }],
     ['--x', { x: true }],
     ['--name 100 ', { name: '100' }],
     ['--name 100 200 ', { name: ['100', '200'] }],
     [
       '--x 1 --y 2 3 4 -z 3 -A -b',
-      { x: '1', y: ['2', '3', '4'], z: '3', A: true, b: true },
+      {
+        x: '1', y: ['2', '3', '4'], z: '3', A: true, b: true,
+      },
     ],
   ])('parse args (%s)', (input, expected) => {
     arg.parse(input);
-    //@ts-ignore
+    // @ts-ignore
     expect(arg._argRawItems).toEqual(expected);
   });
 
@@ -50,7 +52,7 @@ describe('Test Arg class', () => {
   });
 
   it.each(<[IArgParamItem['type'], any, any][]>[
-    /// type, input, output
+    // / type, input, output
     ['string', 101, '101'],
     ['string', true, 'true'],
     ['number', true, 1],
@@ -64,7 +66,7 @@ describe('Test Arg class', () => {
   });
 
   it.each([
-    ///
+    // /
     ['--clone https://github.com/avil13', 'clone', 'c'],
     // ['-c https://github.com/avil13', 'clone', 'c'],
   ])('argument alias are equal (%s, %s, %s)', (input, alias1, alias2) => {
