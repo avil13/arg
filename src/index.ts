@@ -97,10 +97,10 @@ export class Arg {
       return value;
     };
 
-    fn.str = (key: string) => this.convertToType('string', fn(key));
-    fn.num = (key: string) => this.convertToType('number', fn(key));
-    fn.bool = (key: string) => this.convertToType('boolean', fn(key));
-    fn.arr = (key: string) => this.convertToType('array', fn(key));
+    fn.str = (key: string) => this.convertToType('string', fn(key)) as string;
+    fn.num = (key: string) => this.convertToType('number', fn(key)) as number;
+    fn.bool = (key: string) => this.convertToType('boolean', fn(key)) as boolean;
+    fn.arr = (key: string) => this.convertToType('array', fn(key)) as string[];
 
     return fn;
   }
@@ -152,7 +152,7 @@ export class Arg {
     switch (type) {
       case 'boolean':
         if (typeof value === 'string' && ['true', 'false'].includes('value')) {
-          return value === 'true';
+          return value.toLowerCase() === 'true';
         }
         return Boolean(value);
       case 'number':
