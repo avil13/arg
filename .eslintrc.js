@@ -43,6 +43,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'error',
     '@typescript-eslint/no-parameter-properties': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
+    '@typescript-eslint/consistent-type-assertions': 'off',
     '@typescript-eslint/no-use-before-define': [
       'error',
       {
