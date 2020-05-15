@@ -1,7 +1,7 @@
 {
   "name": "@avil13/arg",
   "public": true,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "NodeJS package for simple use arguments in cli.",
   "main": "dist/index.js",
   "types": "dist/types",
