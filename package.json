@@ -1,16 +1,12 @@
 {
   "name": "@avil13/arg",
   "public": true,
-  "version": "1.0.2",
+  "version": "1.0.5",
   "description": "NodeJS package for simple use arguments in cli.",
   "main": "dist/index.js",
-  "types": "dist/types",
+  "types": "dist/index.d.ts",
   "license": "MIT",
-  "files": [
-    "dist",
-    "src",
-    "README.md"
-  ],
+  "files": ["src", "dist"],
   "scripts": {
     "start": "npm run build && node dist/index.js",
     "dev": "ts-node --project tsconfig.json src/index.ts",
