@@ -4,23 +4,23 @@ NodeJS package for simple use arguments in cli.
 
 example:
 
-```sh
+```bash
 # bash
 npm install @avil13/arg
 ```
 
-```js
-const Arg = require('@avil13/arg');
+```ts
+import { Arg } from '@avil13/arg';
 
 const arg = new Arg();
 ```
 Further, "app" is the name of your application.
 
-```js
+```ts
 // app --name Leo
 arg.val('name'); // => Leo
 ```
-```js
+```ts
 // app --name Leo --day 1 --show --list hello world
 arg.val.str('name'); // => Leo
 arg.val.num('day'); // => 1
