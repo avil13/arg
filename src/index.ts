@@ -25,6 +25,7 @@ export interface IArgParamItem {
   description?: string;
   alias?: string;
   string?: boolean;
+  required?: boolean;
 }
 
 /**
