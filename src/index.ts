@@ -100,14 +100,15 @@ export class Arg {
 
     fn.str = (key: string) => this.convertToType('string', fn(key)) as string;
     fn.num = (key: string) => this.convertToType('number', fn(key)) as number;
-    fn.bool = (key: string) => this.convertToType('boolean', fn(key)) as boolean;
+    fn.bool = (key: string) =>
+      this.convertToType('boolean', fn(key)) as boolean;
     fn.arr = (key: string) => this.convertToType('array', fn(key)) as string[];
 
     return fn;
   }
 
   checkKey(key: string) {
-    if (this._argRawItems[key] === undefined && !this.getOptionsByKey(key)) {
+    if (this.getValueByKey(key) === undefined) {
       throw new Error(`Can't find argument "${key}"`);
     }
   }
@@ -117,19 +118,19 @@ export class Arg {
       return this._argRawItems[key];
     }
     const options = this.getOptionsByKey(key);
+
     if (options) {
-      const len = options.keys.length;
-      for (let i = 0; i < len; i++) {
+      for (let i = 0; i < options.keys.length; i++) {
         const optionKey = options.keys[i];
 
-        if (this._argRawItems[optionKey]) {
+        if (this._argRawItems[optionKey] !== undefined) {
           return this._argRawItems[optionKey];
         }
       }
     }
   }
 
-  private getOptionsByKey(key: string) {
+  private getOptionsByKey(key: string): IParamItem | undefined {
     let option;
     let keyLen = 0;
     for (const k in this._argHelpWrapper) {
@@ -148,11 +149,14 @@ export class Arg {
 
   convertToType(
     type: IArgParamItem['type'],
-    value: DefaultValue | DefaultValue[],
+    value: DefaultValue | DefaultValue[]
   ) {
     switch (type) {
       case 'boolean':
-        if (typeof value === 'string' && ['true', 'false'].includes('value')) {
+        if (
+          typeof value === 'string' &&
+          ['true', 'false'].includes(value.toLowerCase())
+        ) {
           return value.toLowerCase() === 'true';
         }
         return Boolean(value);
@@ -181,7 +185,7 @@ export class Arg {
           key,
           parameter.default,
           parameter.description,
-          parameter.type,
+          parameter.type
         );
       }
     }
@@ -202,7 +206,7 @@ export class Arg {
     name: string,
     defaultValue?: any,
     description?: string,
-    type?: IArgParamItem['type'],
+    type?: IArgParamItem['type']
   ) {
     let parentKey = '';
 
@@ -225,6 +229,13 @@ export class Arg {
             description,
             type,
           };
+
+          if (
+            this._argRawItems[key] === undefined &&
+            ['boolean', 'string', 'number'].includes(typeof defaultValue)
+          ) {
+            this._argRawItems[key] = defaultValue;
+          }
         } else {
           this._argHelpWrapper[parentKey].keys.push(key);
         }
@@ -252,6 +263,8 @@ export class Arg {
     const description = item.description || '';
     const defaultValue = item.defaultValue && `default: ${item.defaultValue}`;
 
-    return [` ${keys}`, defaultValue, description].filter((v) => !!v).join('\t');
+    return [` ${keys}`, defaultValue, description]
+      .filter((v) => !!v)
+      .join('\t');
   }
 }

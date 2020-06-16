@@ -27,3 +27,32 @@ arg.val.num('day'); // => 1
 arg.val.bool('show'); // => true
 arg.val.arr('list'); // => ['hello', 'world']
 ```
+
+# Read prepared params
+
+```ts
+import { Arg, IArgParamList } from '@avil13/arg';
+
+const arg = new Arg();
+
+const cliArgs: IArgParamList = {
+  browser: {
+    type: 'string',
+    alias: 'b',
+    default: 'chrome',
+    description: 'Browser type',
+  },
+};
+
+arg.params(cliArgs);
+```
+
+# Create property
+
+```ts
+// default value: true
+arg.param(`name,alias`, true, 'some description');
+
+// no default value
+arg.param(`name,alias`, null, 'some description');
+```

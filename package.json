@@ -6,13 +6,16 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
-  "files": ["src", "dist"],
+  "files": [
+    "src",
+    "dist"
+  ],
   "scripts": {
     "start": "npm run build && node dist/index.js",
     "dev": "ts-node --project tsconfig.json src/index.ts",
     "dev:watch": "nodemon",
     "lint:fix": "eslint --fix --ext .js,.ts .",
-    "test": "jest",
+    "test": "jest --collect-coverage",
     "test:watch": "jest --watch",
     "type-check": "tsc -p . --noEmit",
     "type-check:watch": "npm run type-check -- --watch",

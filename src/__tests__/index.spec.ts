@@ -55,10 +55,16 @@ describe('Test Arg class', () => {
     // / type, input, output
     ['string', 101, '101'],
     ['string', true, 'true'],
+    ['string', '', ''],
     ['number', true, 1],
     ['number', false, 0],
     ['boolean', '', false],
     ['boolean', '0', true],
+    ['boolean', 'true', true],
+    ['boolean', 'TRUE', true],
+    ['boolean', 'true', true],
+    ['boolean', 'false', false],
+    ['boolean', 'FALSE', false],
     ['array', 'xxx', ['xxx']],
     //
   ])('convertToType(%s, %o): %o', (type, input, expected) => {
@@ -68,12 +74,12 @@ describe('Test Arg class', () => {
   it.each([
     // /
     ['--clone https://github.com/avil13', 'clone', 'c'],
-    // ['-c https://github.com/avil13', 'clone', 'c'],
-  ])('argument alias are equal (%s, %s, %s)', (input, alias1, alias2) => {
+    ['-c https://github.com/avil13', 'clone', 'c'],
+  ])('argument alias are equal: "%s", [%s,%s]', (input, alias1, alias2) => {
     arg.parse(input);
-    arg.param(`${alias1},${alias2}`, '', 'some description');
+    arg.param(`${alias1},${alias2}`, null, 'some description');
 
-    expect(arg.val(alias1) === arg.val(alias2)).toBe(true);
+    expect(arg.val(alias1)).toBe(arg.val(alias2));
   });
 
   it('set param by signature', () => {
@@ -90,15 +96,26 @@ describe('Test Arg class', () => {
     const params: IArgParamList = {
       num: {
         type: 'number',
-        alias: 'n',
+        alias: 'n-u-m-b-e-r',
         default: defaultVal,
         description: 'max value',
       },
+      unusedFlag: {
+        type: 'string',
+        alias: 'un',
+        default: '',
+        description: 'To test the operation unused parameter'
+      }
     };
 
     arg.params(params);
 
     expect(arg.val('num')).toBe(defaultVal);
-    expect(arg.val('n')).toBe(defaultVal);
+    expect(arg.val('n-u-m-b-e-r')).toBe(defaultVal);
+    expect(arg.val('un')).toBe('');
+
+    arg.parse('-num 102');
+    expect(arg.val('num')).toBe(102);
+    expect(arg.val('un')).toBe('');
   });
 });
