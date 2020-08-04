@@ -56,3 +56,21 @@ arg.param(`name,alias`, true, 'some description');
 // no default value
 arg.param(`name,alias`, null, 'some description');
 ```
+
+# Use flag
+```ts
+const params: IArgParamList = {
+  add: {
+    flag: true, // arguments as flag
+    type: 'array',
+    default: ['.'],
+    description: 'Add alias by path',
+  },
+};
+
+arg.params(params);
+
+// node script.js add path/to/folder options
+arg.val.arr('add') // => ['path/to/folder', 'options']
+
+```
