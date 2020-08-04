@@ -13,6 +13,7 @@ export interface IParamItem {
   defaultValue?: DefaultValue;
   description?: string;
   type?: IArgParamItem['type'];
+  isFlag?: boolean;
 }
 
 export interface IArgParamList {
@@ -26,6 +27,7 @@ export interface IArgParamItem {
   alias?: string;
   string?: boolean;
   required?: boolean;
+  flag?: boolean;
 }
 
 /**
@@ -64,13 +66,29 @@ export class Arg {
     this.parse(...process.argv.slice(2));
   }
 
-  parse(...args: string[]) {
+  parse(...argList: string[]) {
+    const flags = Object.keys(this._argHelpWrapper).filter(
+      (key) => this._argHelpWrapper[key].isFlag
+    );
+
+    let args = [...argList];
+
+    if (flags.length) {
+      args = args.join(' ').split(' ').filter(Boolean);
+
+      args.forEach((item, index, arr) => {
+        if (flags.includes(item)) {
+          arr[index] = `--${item}`;
+        }
+      });
+    }
+
     const argStr = args.join(' ');
-    const reg = /-{1,2}([^\s]+)(.*?(?=\s-)|.*)/g;
+    const reg = new RegExp(`-{1,2}([^\\s]+)(.*?(?=\\s-)|.*)`, 'g');
 
     argStr.replace(reg, ($0, key, value) => {
       if (!value) {
-        this._argRawItems[key] = true;
+        this._argRawItems[key] = this._argHelpWrapper[key]?.defaultValue || true;
       } else {
         const v = value
           .split(/\s{1,}/)
@@ -185,7 +203,8 @@ export class Arg {
           key,
           parameter.default,
           parameter.description,
-          parameter.type
+          parameter.type,
+          parameter.flag
         );
       }
     }
@@ -206,7 +225,8 @@ export class Arg {
     name: string,
     defaultValue?: any,
     description?: string,
-    type?: IArgParamItem['type']
+    type?: IArgParamItem['type'],
+    isFlag?: boolean
   ) {
     let parentKey = '';
 
@@ -228,6 +248,7 @@ export class Arg {
             defaultValue,
             description,
             type,
+            isFlag,
           };
 
           if (

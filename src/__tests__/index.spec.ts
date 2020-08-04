@@ -105,6 +105,12 @@ describe('Test Arg class', () => {
         alias: 'un',
         default: '',
         description: 'To test the operation unused parameter'
+      },
+      add: {
+        flag: true,
+        type: 'array',
+        default: ['.'],
+        description: 'Add alias by path'
       }
     };
 
@@ -117,5 +123,11 @@ describe('Test Arg class', () => {
     arg.parse('-num 102');
     expect(arg.val('num')).toBe(102);
     expect(arg.val('un')).toBe('');
+
+    arg.parse('add path/to/folder alias')
+    expect(arg.val.arr('add')).toEqual(['path/to/folder', 'alias']);
+
+    arg.parse('add')
+    expect(arg.val.arr('add')).toEqual(['.']);
   });
 });
