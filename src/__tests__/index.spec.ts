@@ -104,14 +104,14 @@ describe('Test Arg class', () => {
         type: 'string',
         alias: 'un',
         default: '',
-        description: 'To test the operation unused parameter'
+        description: 'To test the operation unused parameter',
       },
       add: {
         flag: true,
         type: 'array',
         default: ['.'],
-        description: 'Add alias by path'
-      }
+        description: 'Add alias by path',
+      },
     };
 
     arg.params(params);

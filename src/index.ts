@@ -62,11 +62,11 @@ export class Arg {
     this.parseArgv();
   }
 
-  parseArgv() {
+  parseArgv(): void {
     this.parse(...process.argv.slice(2));
   }
 
-  parse(...argList: string[]) {
+  parse(...argList: string[]): Arg {
     const flags = Object.keys(this._argHelpWrapper).filter(
       (key) => this._argHelpWrapper[key].isFlag
     );
@@ -86,9 +86,11 @@ export class Arg {
     const argStr = args.join(' ');
     const reg = new RegExp(`-{1,2}([^\\s]+)(.*?(?=\\s-)|.*)`, 'g');
 
-    argStr.replace(reg, ($0, key, value) => {
+    argStr.replace(reg, ($0, key: string, value?: string) => {
       if (!value) {
-        this._argRawItems[key] = this._argHelpWrapper[key]?.defaultValue || true;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        this._argRawItems[key] =
+          this._argHelpWrapper[key]?.defaultValue || true;
       } else {
         const v = value
           .split(/\s{1,}/)
@@ -282,7 +284,7 @@ export class Arg {
       .map((v, i) => `${i === 0 ? '-' : ''}-${v}`)
       .join(', ');
     const description = item.description || '';
-    const defaultValue = item.defaultValue && `default: ${item.defaultValue}`;
+    const defaultValue = item.defaultValue && `default: ${ item.defaultValue }`;
 
     return [` ${keys}`, defaultValue, description]
       .filter((v) => !!v)
