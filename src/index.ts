@@ -218,6 +218,7 @@ export class Arg {
    * @param defaultValue
    * @param description
    * @param type
+   * @param {boolean} isFlag
    *
    * @example
    * const arg = new Arg();
