@@ -10,26 +10,20 @@ import {
 } from './../helpers';
 
 describe('Helpers', () => {
-  it('addAlias', () => {
-    const aliases: TAliasLists = [];
-    addAlias(aliases, 'ls', 'list');
+  it.each<[TAliasLists, string[], TAliasLists]>([
+    //
+    [[], ['ls', 'list'], [['ls', 'list']]],
+    [[], [], []],
+    [[], ['cm'], []],
+    [[['ls']], ['cm'], [['ls']]],
+    [[['ls']], ['commit', 'cm'], [['ls'], ['commit', 'cm']]],
+    [[['ls', 'l']], ['l', 'list'], [['ls', 'l', 'list']]],
+    [[['ls', 'l']], ['l', 'list'], [['ls', 'l', 'list']]],
+    [[['ls', 'l']], ['l', 'ls'], [['ls', 'l']]],
+  ])('addAlias(%o, %o):\n\t%o', (aliases, keys, expected) => {
+    addAlias(aliases, ...keys);
 
-    expect(aliases).toEqual([['ls', 'list']]);
-  });
-
-  it('addAlias [bad]', () => {
-    let aliases: TAliasLists = [];
-
-    addAlias(aliases);
-    expect(aliases).toEqual([]);
-
-    addAlias(aliases, 'cm');
-    expect(aliases).toEqual([]);
-
-    aliases = [['ls']];
-
-    addAlias(aliases, 'commit', 'cm');
-    expect(aliases).toEqual([['ls'], ['commit', 'cm']]);
+    expect(aliases).toEqual(expected);
   });
 
   it('hasKeyInArgs', () => {
