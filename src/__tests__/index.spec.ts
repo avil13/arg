@@ -1,28 +1,10 @@
-import { Arg, IArgParamList } from '../v2';
+import { Arg, IArgParamList } from '..';
 
 describe('Test Arg class', () => {
   let arg: Arg;
 
   beforeEach(() => {
     arg = new Arg({ isTest: true });
-  });
-
-  xit.each([
-    // /
-    ['-x', { x: true }],
-    ['--x', { x: true }],
-    ['--name 100 ', { name: '100' }],
-    ['--name 100 200 ', { name: ['100', '200'] }],
-    [
-      '--x 1 --y 2 3 4 -z 3 -A -b',
-      {
-        x: '1', y: ['2', '3', '4'], z: '3', A: true, b: true,
-      },
-    ],
-  ])('parse args (%s)', (input, expected) => {
-    arg.parse(input);
-    // @ts-ignore
-    expect(arg._argRawItems).toEqual(expected);
   });
 
   describe('val:', () => {

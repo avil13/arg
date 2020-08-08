@@ -1,4 +1,4 @@
-import { Arg, IArgParamItem, IArgParamList, DefaultValue } from '../v2';
+import { Arg, IArgParamItem, IArgParamList, DefaultValue } from '..';
 
 describe('Test Arg class', () => {
   let arg: Arg;

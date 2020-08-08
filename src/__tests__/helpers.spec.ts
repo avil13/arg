@@ -1,5 +1,13 @@
-import { IArgParamItem } from './../../dist/index.d';
-import { addAlias, TAliasLists, TArgs, hasKeyInArgs, getExistsAliasParamName, getArgumentsByKey, convertToType } from './../helpers';
+import { IArgParamItem } from './..';
+import {
+  addAlias,
+  TAliasLists,
+  TArgs,
+  hasKeyInArgs,
+  getExistsAliasParamName,
+  getArgumentsByKey,
+  convertToType,
+} from './../helpers';
 
 describe('Helpers', () => {
   it('addAlias', () => {
@@ -7,6 +15,21 @@ describe('Helpers', () => {
     addAlias(aliases, 'ls', 'list');
 
     expect(aliases).toEqual([['ls', 'list']]);
+  });
+
+  it('addAlias [bad]', () => {
+    let aliases: TAliasLists = [];
+
+    addAlias(aliases);
+    expect(aliases).toEqual([]);
+
+    addAlias(aliases, 'cm');
+    expect(aliases).toEqual([]);
+
+    aliases = [['ls']];
+
+    addAlias(aliases, 'commit', 'cm');
+    expect(aliases).toEqual([['ls'], ['commit', 'cm']]);
   });
 
   it('hasKeyInArgs', () => {
@@ -20,10 +43,10 @@ describe('Helpers', () => {
     const args: TArgs = ['-ls', '1', '2'];
     const aliases: TAliasLists = [['ls', 'list', 'l']];
 
-    expect( getExistsAliasParamName(args, aliases, 'ls')).toBe('ls');
-    expect( getExistsAliasParamName(args, aliases, 'list')).toBe('ls');
-    expect( getExistsAliasParamName(args, aliases, 'l')).toBe('ls');
-    expect( getExistsAliasParamName(args, aliases, 'nope')).toBe(undefined);
+    expect(getExistsAliasParamName(args, aliases, 'ls')).toBe('ls');
+    expect(getExistsAliasParamName(args, aliases, 'list')).toBe('ls');
+    expect(getExistsAliasParamName(args, aliases, 'l')).toBe('ls');
+    expect(getExistsAliasParamName(args, aliases, 'nope')).toBe(undefined);
   });
 
   it('getArgumentsByKey', () => {

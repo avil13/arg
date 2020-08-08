@@ -1,4 +1,4 @@
-import { IArgParamItem, DefaultValue } from './v2';
+import { IArgParamItem, DefaultValue } from '.';
 
 export type TArgs = string[];
 export type TAliasLists = string[][];
@@ -10,15 +10,14 @@ export const addAlias = (aliases: TAliasLists, ...items: string[]) => {
 
   const [nameOne, ...leftNames] = items;
 
-  const als = aliases.find((list) => list.includes(nameOne));
+  const findList = aliases.find((list) => list.includes(nameOne));
 
-
-  if (als) {
+  if (findList) {
     leftNames.forEach((v) => {
-      if (als.includes(v)) {
+      if (findList.includes(v)) {
         return;
       }
-      als.push(v);
+      findList.push(v);
     });
     return;
   }
