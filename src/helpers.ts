@@ -53,12 +53,12 @@ export const getArgumentsByKey = (
   args: TArgs,
   aliases: TAliasLists,
   name: string,
-  isFlag = false
+  isCommand = false
 ): string[] => {
   let isStarted = false;
   let isLast = false;
 
-  if (!isFlag) {
+  if (!isCommand) {
     name = getExistsAliasParamName(args, aliases, name) || name;
   }
 
@@ -76,7 +76,7 @@ export const getArgumentsByKey = (
       return true;
     }
 
-    if ((isFlag && str === name) || str === `-${name}` || str === `--${name}`) {
+    if ((isCommand && str === name) || str === `-${name}` || str === `--${name}`) {
       isStarted = true;
       return false;
     }

@@ -22,7 +22,7 @@ export interface IArgParamItem {
   description?: string;
   alias?: string;
   required?: boolean;
-  flag?: boolean;
+  command?: boolean;
 }
 
 interface IArg {
@@ -87,7 +87,7 @@ export class Arg implements IArg {
           param.default,
           param.description,
           param.type,
-          param.flag,
+          param.command,
           param.required
         );
       }
@@ -119,7 +119,7 @@ export class Arg implements IArg {
    * @param defaultValue
    * @param description
    * @param type
-   * @param {boolean} isFlag
+   * @param {boolean} isCommand
    * @param {boolean} required
    *
    * @example
@@ -131,7 +131,7 @@ export class Arg implements IArg {
     defaultValue?: any,
     description?: string,
     type?: IArgParamItem['type'],
-    isFlag = false,
+    isCommand = false,
     required = false
   ) {
     const [keyName, ...listNames] = name
@@ -147,7 +147,7 @@ export class Arg implements IArg {
       type: type || 'string',
       default: defaultValue || '',
       description: description || '',
-      flag: isFlag,
+      command: isCommand,
       required,
     };
 
@@ -161,7 +161,7 @@ export class Arg implements IArg {
         defaultValue,
         description,
         type,
-        isFlag,
+        isCommand,
         required
       );
     }
@@ -183,7 +183,7 @@ export class Arg implements IArg {
         this._args,
         this._aliases,
         key,
-        param?.flag
+        param?.command
       );
 
       if (
@@ -208,5 +208,9 @@ export class Arg implements IArg {
     fn.arr = (key: string) => fn(key, 'array') as string[];
 
     return fn;
+  }
+
+  get isEmpty(): boolean {
+    return this._args.length === 0;
   }
 }

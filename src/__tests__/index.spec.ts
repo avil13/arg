@@ -89,7 +89,7 @@ describe('Test Arg class', () => {
         description: 'To test the operation unused parameter',
       },
       add: {
-        flag: true,
+        command: true,
         type: 'array',
         default: ['.'],
         description: 'Add alias by path',

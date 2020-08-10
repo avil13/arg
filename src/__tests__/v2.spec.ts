@@ -23,14 +23,14 @@ describe('Test Arg class', () => {
         type: 'string',
         default: '',
         description: '',
-        flag: false,
+        command: false,
         required: false,
       },
       l: {
         type: 'string',
         default: '',
         description: '',
-        flag: false,
+        command: false,
         required: false,
       },
     });
@@ -78,6 +78,8 @@ describe('Test Arg class', () => {
     ['-ls 101', ['l', ['101']], { type: 'array' }],
     //
     ['-ls', ['l', ['def', 'val']], { type: 'array', default: ['def', 'val'] }],
+    //
+    ['ls url addr', ['ls', ['url', 'addr']], { type: 'array', command: true }],
   ])('Param: val(%s): %s\t%o', (input, expected, param) => {
     const conf: IArgParamList = {
       ls: {
@@ -85,8 +87,7 @@ describe('Test Arg class', () => {
         // default: '',
         description: 'nope',
         alias: 'l',
-        required: false,
-        flag: false,
+        command: false,
         ...param,
       },
     };
